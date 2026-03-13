@@ -1,0 +1,116 @@
+<?php
+session_start();
+$isLoggedIn = isset($_SESSION['user_email']);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Galaxy | Event Management</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="navbar">
+    <div class="logo">
+        <span>🏟️</span> Event Galaxy
+    </div>
+
+    <nav>
+        <a href="index.php">Refresh</a>
+        <a href="nav/about.php">About</a>
+        <a href="nav/services.php">Services</a>  
+        <a href="nav/contact.php">Contact</a>
+        <a href="admin_login.php">Admin</a>
+        <a href="Hall.php">Check Hall</a>
+    </nav>
+
+    <?php if (!$isLoggedIn): ?>
+        <button class="nav-btn" onclick="window.location.href='user_login.php'">
+            Login / Signup
+        </button>
+    <?php else: ?>
+        <button class="nav-btn">
+           <a href="logout.php" style="color: white; text-decoration: none;">Logout</a>
+       
+        </button>
+    <?php endif; ?>
+</header>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+        <span class="badge">Premium Event Solutions</span>
+        <h1>Creating Moments That Last Forever</h1>
+        <p>
+            Event Galaxy specializes in planning unforgettable experiences —
+            from elegant weddings to powerful corporate events.
+        </p>
+
+        
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+    <h2>Our Event Services</h2>
+    <p class="sub-text">We deliver creativity, precision, and excellence.</p>
+
+     <div class="service-cards">
+        <div class="card highlight">
+            <h3>Public Events </h3>
+            <p> Concert, fest ,Workshop visible after  login.</p>
+       
+            <?php if ($isLoggedIn): ?>
+                <a href="public_events.php">
+                    <button>Get Pass</button>
+                </a>
+                 <?php else: ?>
+                <form method="post" action="redirect.php">
+                    <input type="hidden" name="page" value="public_events.php">
+                    <button type="submit">Get Pass</button>
+                </form>
+            <?php endif; ?>
+           
+        </div>
+
+        <div class="card highlight">
+            <h3>Private Events 🔒</h3>
+            <p>Secure corporate meetings & conferences,Birthday party , Wedding 
+                events. Entry by invitation only
+            </p>
+       <?php if ($isLoggedIn): ?>
+                <a href="private_events.php">
+                    <button>Checkout & Access</button>
+                </a>
+            <?php else: ?>
+                <form method="post" action="redirect.php">
+                    <input type="hidden" name="page" value="private_events.php">
+                    <button type="submit">Checkout & Access</button>
+                </form>
+            <?php endif; ?>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2025 Event Galaxy. All rights reserved.</p>
+</footer>
+
+<script>
+function checkLogin() {
+    <?php if (!$isLoggedIn): ?>
+        alert("Please login to continue");
+        window.location.href = "user_login.php";
+    <?php else: ?>
+        window.location.href = "events.php";
+    <?php endif; ?>
+}
+</script>
+
+</body>
+</html>
